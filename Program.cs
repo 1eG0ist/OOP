@@ -16,11 +16,31 @@ namespace OOP
             };
             for (int i = 0; i < vsevolods_autopark.Count; i++)
             {
-                Console.WriteLine($"Enter fuel tank size of auto №{i+1}");
-                float fuel_size = float.Parse(Console.ReadLine());
-                vsevolods_autopark[i].modernFuelTank(fuel_size);
-                Console.WriteLine($"Enter how many fuel auto №{i + 1} have now (0-{fuel_size}): ");
-                vsevolods_autopark[i].setFuelNow(float.Parse(Console.ReadLine()));
+                while(true)
+                {
+                    Console.WriteLine($"Enter fuel tank size of auto №{i+1}");
+                    float fuel_size = float.Parse(Console.ReadLine());
+                    if ( fuel_size <= 0 )
+                    {
+                        Console.WriteLine("Incorrect fuel tank size, Press any key to enter again: ");
+                        Console.ReadKey();
+                        continue;
+                    }
+                    
+                    Console.WriteLine($"Enter how many fuel auto №{i + 1} have now (0-{fuel_size}): ");
+                    float fuel_now = float.Parse(Console.ReadLine());
+                    if ( fuel_now < 0 || fuel_now > fuel_size )
+                    {
+                        Console.WriteLine("Incorrect fuel now, Press any key to enter again: ");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    vsevolods_autopark[i].modernFuelTank(fuel_size);
+                    vsevolods_autopark[i].setFuelNow(fuel_now);
+                    break;
+                }
+                
             }
             int selected_auto = 0;
             while (true)
@@ -29,7 +49,7 @@ namespace OOP
                 {
                     Console.WriteLine($"Q - Show auto info\nW - Change color\nE - Modern fuel tank\nR - Refuel\nT - Go\nY - Change selected auto (1-3)\nU - Up speed\nI - Down speed");
                     ConsoleKey input_key = Console.ReadKey().Key;
-                    Console.WriteLine();
+                    Console.WriteLine("\n");
                     int counter = 0;
                     for (int i = 0; i < vsevolods_autopark.Count; i++)
                     {
@@ -54,6 +74,8 @@ namespace OOP
                         }
                         catch
                         {
+                            Console.WriteLine("Something went wrong! Press any key to try again: ");
+                            Console.ReadKey();
                             continue;
                         }
                     }
@@ -67,15 +89,36 @@ namespace OOP
                             break;
 
                         case ConsoleKey.W:
-                            Console.WriteLine("Enter new color: ");
-                            vsevolods_autopark[selected_auto].setNewColor(Console.ReadLine());
-                            Console.Clear();
+                            while (true)
+                            {
+                                Console.WriteLine("Enter new color: ");
+                                string new_color = Console.ReadLine();
+                                if (new_color.Length == 0)
+                                {
+                                    Console.WriteLine("0 Length colors isn't supporting!!! Try again");
+                                    continue;
+                                }
+
+                                vsevolods_autopark[selected_auto].setNewColor(new_color);
+                                Console.Clear();
+                                break;
+                            }
                             break;
 
                         case ConsoleKey.E:
-                            Console.WriteLine("Enter new fuel tank size: ");
-                            vsevolods_autopark[selected_auto].modernFuelTank(float.Parse(Console.ReadLine()));
-                            Console.Clear();
+                            while(true)
+                            {
+                                float fuel_size = float.Parse(Console.ReadLine());
+                                if (fuel_size <= 0)
+                                {
+                                    Console.WriteLine("Incorrect fuel tank size, Press any key to enter again: ");
+                                    Console.ReadKey();
+                                    continue;
+                                }
+                                vsevolods_autopark[selected_auto].modernFuelTank(fuel_size);
+                                Console.Clear();
+                                break;
+                            }
                             break;
 
                         case ConsoleKey.R:
@@ -85,16 +128,36 @@ namespace OOP
                             break;
 
                         case ConsoleKey.T:
-                            Console.WriteLine("Enter integer x, y coords: ");
-                            string coords = Console.ReadLine();
-                            vsevolods_autopark[selected_auto].goTo(int.Parse(coords.Split(' ')[0]), int.Parse(coords.Split(' ')[1]));
-                            Console.Clear();
+                            while(true)
+                            {
+                                Console.WriteLine("Enter integer x y coords like 5 1 or 9 5: ");
+                                string coords = Console.ReadLine();
+                                if (coords.Length == 0 || coords.Count(x => x == ' ') != 1)
+                                {
+                                    Console.WriteLine("Error, something wrong in your coords, try again!");
+                                    continue;
+                                }
+                                vsevolods_autopark[selected_auto].goTo(int.Parse(coords.Split(' ')[0]), int.Parse(coords.Split(' ')[1]));
+                                Console.Clear();
+                                break;
+                            }
                             break;
 
                         case ConsoleKey.Y:
-                            Console.WriteLine("Enter new selected auto: ");
-                            selected_auto = int.Parse(Console.ReadLine()) - 1;
-                            Console.Clear();
+                            while(true)
+                            {
+                                Console.WriteLine("Enter new selected auto: ");
+                                int new_sel_auto = int.Parse(Console.ReadLine()) - 1;
+                                if (new_sel_auto < 0 || new_sel_auto > 2)
+                                {
+                                    Console.WriteLine("You have only 3 autos, pls enter 1 or 2 or 3!");
+                                    continue;
+                                }
+
+                                selected_auto = new_sel_auto;
+                                Console.Clear();
+                                break;
+                            }
                             break;
 
                         case ConsoleKey.U:
@@ -113,7 +176,6 @@ namespace OOP
                             Console.Clear();
                             break;
                     }
-                    Console.WriteLine("Введите номер ");
                 } catch (Exception ex)
                 {
                     continue;

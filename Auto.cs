@@ -68,7 +68,7 @@ namespace OOP
             {
                 for (int i = 0; i < autos_positions.Count; i++)
                 {
-                    if (autos_positions[i][0] == x && autos_positions[i][1] == y)
+                    if (autos_positions[i][0] == x && autos_positions[i][1] == y && i != n_of_auto)
                     {
                         autoCrash();
                         break;
@@ -90,7 +90,9 @@ namespace OOP
         {
             if (speed + up_on >= 500)
             {
-                Console.WriteLine("Too big speed");
+                Console.WriteLine("Too big speed, didn't up speed! Press any key to continue: ");
+                Console.ReadLine();
+
             } else
             {
                 speed += up_on;
@@ -109,7 +111,8 @@ namespace OOP
         {
             if (speed - down_on < 0)
             {
-                Console.WriteLine("Error: speed is under of 0, seted speed = 0");
+                Console.WriteLine("Error: speed is under of 0, seted speed = 0, Press any key co continue: ");
+                Console.ReadKey();
                 speed = 0;
             } else
             {
@@ -166,7 +169,7 @@ namespace OOP
 
         public override string ToString()
         {
-            return $"Number of created auto - {n_of_auto}\nName - {name}\nColor - {color}\nFuel tank size - {fuel_tank_size}\n" +
+            return $"Number of created auto - {n_of_auto+1}\nName - {name}\nColor - {color}\nFuel tank size - {fuel_tank_size}\n" +
                 $"Coms per 100 km - {coms_per_100_km}\nFuel now - {fuel_now}\nMileage - {mileage}\nX - {x}\nY - {y}\nSpeed - {speed}\nHealth - {health}";
         }
     }
