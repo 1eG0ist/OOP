@@ -76,12 +76,12 @@ namespace OOP
                 }
                 setPosition(x, y);
                 autos_positions[n_of_auto] = new int[] { x, y };
-                this.mileage += distance;
+                mileage += distance;
                 fuel_now -= needs_fuel;
             }
         } 
 
-        public float calculateDistance(int x, int y)
+        private float calculateDistance(int x, int y)
         {
             return (float)Math.Sqrt(Math.Pow(this.x - x, 2) + Math.Pow(this.y - y, 2));
         }
@@ -98,7 +98,7 @@ namespace OOP
             }
         }
 
-        public void autoCrash()
+        private void autoCrash()
         {
             health -= 20;
             Console.WriteLine("The auto crashed into another auto!!! Press any key to continue: ");
@@ -118,7 +118,7 @@ namespace OOP
             }
         }
 
-        public void updateComsPerKmMultiplier()
+        private void updateComsPerKmMultiplier()
         {
             if (speed < 50) coms_per_km_multiplier = 1;
             else if (speed >= 50 && speed < 100) coms_per_km_multiplier = 1.1f;
@@ -128,15 +128,10 @@ namespace OOP
             else if (speed >= 350) coms_per_km_multiplier = 1.5f;
         }
 
-        public void setPosition(int x, int y)
+        private void setPosition(int x, int y)
         {
             this.x = x;
             this.y = y;
-        }
-
-        public void changeColor(string new_color)
-        {
-            color = new_color;
         }
 
         public void setFuelNow(float fuel_now)
